@@ -23,10 +23,16 @@ public class TokenController {
         return tokenService.totalSupply();
     }
 
-    @GetMapping("/balance/{email}")
+    @GetMapping("/user-balance/{email}")
     public String getBalance(@PathVariable String email) throws Exception {
 
         return tokenService.getBalance(email);
+    }
+
+    @GetMapping("/gye-balance/{id}")
+    public String getBalance(@PathVariable Long id) throws Exception {
+
+        return tokenService.getBalance(id);
     }
 
     @GetMapping("/charge/{email}/{amount}")

@@ -11,7 +11,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import com.blockchain.armagyeddon.domain.entity.Gye;
 import com.blockchain.armagyeddon.domain.entity.UserInfo;
+import com.blockchain.armagyeddon.domain.repository.GyeRepository;
 import com.blockchain.armagyeddon.domain.repository.UserInfoRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +49,8 @@ public class TokenService {
 
     @Autowired
     private UserInfoRepository userInfoRepository;
+    @Autowired
+    private GyeRepository gyeRepository;
 
     // Token contract address
 
@@ -170,6 +174,28 @@ public class TokenService {
 
     }
 
+    // Get Gye Balance
+    public String getBalance(Long gyeId) throws Exception {
+
+        String balance;
+        Gye targetGye = gyeRepository.findById(gyeId).get();
+
+        if (targetGye == null)
+            return "user [" + gyeId + "] didn't exist";
+
+        String address = targetGye.getPublicKey();
+
+        System.out.println(address);
+
+        List<Type> decode = viewFunction("balanceOf", Arrays.asList(new Address(address)),
+                Arrays.asList(new TypeReference<Uint256>() {
+                }));
+        balance = decode.get(0).getValue().toString();
+
+        return balance;
+
+    }
+
     public boolean chargeToken(String email, String amount) {
 
         UserInfo targetUser = userInfoRepository.findByEmail(email);
@@ -197,34 +223,59 @@ public class TokenService {
 
     }
 
+
+
     // 토큰 전송 기능
     // 잔액이 부족한 경우에 대한 처리 추가할 것
 
-    public boolean sendToken(String from, String to, String amount) {
+    // to User
+    public boolean sendTokenToUser(String from, String to, String amount) {
         UserInfo fromUser = userInfoRepository.findByEmail(from);
         UserInfo toUser = userInfoRepository.findByEmail(to);
-
-        BigInteger amount_ = new BigInteger(amount);
 
         if (fromUser == null || toUser == null) {
             System.out.println("user didn't exist");
             return false;
         }
 
-        String fromUserAddress = fromUser.getPublicKey();
-        String toUserAddress = toUser.getPublicKey();
+        sendToken(fromUser.getPublicKey(),  toUser.getPublicKey(), amount);
 
+
+        return true;
+
+    }
+
+    // to Gye
+    public boolean sendTokenToGye(String from, Long id, String amount) {
+
+        UserInfo fromUser = userInfoRepository.findByEmail(from);
+        Gye gye = gyeRepository.findById(id).get();
+
+        if (fromUser == null || gye == null) {
+            System.out.println("User or Gye didn't exist");
+            return false;
+        }
+
+        sendToken(fromUser.getPublicKey(),  gye.getPublicKey(), amount);
+
+
+        return true;
+
+    }
+
+    public boolean sendToken(String from, String to, String amount) {
+
+        BigInteger amount_ = new BigInteger(amount);
 
         List<Type> inputParameters = new ArrayList<>();
-        inputParameters.add(new Address(fromUserAddress));
-        inputParameters.add(new Address(toUserAddress));
+        inputParameters.add(new Address(from));
+        inputParameters.add(new Address(to));
         inputParameters.add(new Uint256(amount_));
 
 
         transactionFunction("sendToken", inputParameters, Collections.emptyList());
 
         return true;
-
     }
 
     public boolean burnToken(String from, String amount) {
