@@ -229,19 +229,19 @@ public class TokenService {
     // 잔액이 부족한 경우에 대한 처리 추가할 것
 
     // to User
-    public boolean sendTokenToUser(String from, String to, String amount) {
-        UserInfo fromUser = userInfoRepository.findByEmail(from);
+    public boolean sendTokenToUser(Long from, String to, String amount) {
+        Gye gye = gyeRepository.findById(from).get();
         UserInfo toUser = userInfoRepository.findByEmail(to);
 
-        if (fromUser == null || toUser == null) {
+        if (gye == null || toUser == null) {
             System.out.println("user didn't exist");
             return false;
         }
 
-        sendToken(fromUser.getPublicKey(),  toUser.getPublicKey(), amount);
 
 
-        return true;
+
+        return sendToken(gye.getPublicKey(),  toUser.getPublicKey(), amount);
 
     }
 
@@ -256,10 +256,10 @@ public class TokenService {
             return false;
         }
 
-        sendToken(fromUser.getPublicKey(),  gye.getPublicKey(), amount);
 
 
-        return true;
+
+        return sendToken(fromUser.getPublicKey(),  gye.getPublicKey(), amount);
 
     }
 
