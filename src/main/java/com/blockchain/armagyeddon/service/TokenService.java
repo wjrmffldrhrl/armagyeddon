@@ -251,6 +251,9 @@ public class TokenService {
         UserInfo fromUser = userInfoRepository.findByEmail(from);
         Gye gye = gyeRepository.findById(id).get();
 
+        System.out.println(fromUser.getEmail() + " send " + amount + " token to " + gye.getTitle());
+
+
         if (fromUser == null || gye == null) {
             System.out.println("User or Gye didn't exist");
             return false;

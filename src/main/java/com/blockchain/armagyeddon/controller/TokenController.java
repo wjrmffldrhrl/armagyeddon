@@ -49,7 +49,8 @@ public class TokenController {
     public String sendTokenUserToGye(@RequestBody SendTokenDto sendRequest){
 
 
-        boolean result = tokenService.sendTokenToGye(sendRequest.getFrom(),
+
+        boolean result = tokenService.sendTokenToGye(sendRequest.getUserEmail(),
                 sendRequest.getGyeId(), sendRequest.getAmount());
 
         if(!result)
@@ -63,7 +64,7 @@ public class TokenController {
 
 
         boolean result = tokenService.sendTokenToUser(sendRequest.getGyeId(),
-                sendRequest.getFrom(), sendRequest.getAmount());
+                sendRequest.getUserEmail(), sendRequest.getAmount());
 
         if(!result)
             return "didn't work";
