@@ -1,13 +1,12 @@
 package com.blockchain.armagyeddon.controller;
 
 import java.io.IOException;
+import java.security.Principal;
 
+import com.blockchain.armagyeddon.domain.dto.SendTokenDto;
 import com.blockchain.armagyeddon.service.TokenService;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,17 +22,22 @@ public class TokenController {
         return tokenService.totalSupply();
     }
 
-    @GetMapping("/balance/{email}")
+    @GetMapping("/user-token/{email}")
     public String getBalance(@PathVariable String email) throws Exception {
 
         return tokenService.getBalance(email);
     }
 
-    @GetMapping("/charge/{email}/{amount}")
-    public String chargeToken(@PathVariable String email, 
-        @PathVariable String amount) throws IOException {
+    @GetMapping("/gye-token/{id}")
+    public String getBalance(@PathVariable Long id) throws Exception {
 
-        boolean result = tokenService.chargeToken(email, amount);
+        return tokenService.getBalance(id);
+    }
+
+    @PostMapping("/user-token")
+    public String chargeToken(@RequestBody String amount, Principal userInfo) throws IOException {
+        System.out.println(amount);
+        boolean result = tokenService.chargeToken(userInfo.getName(), amount.split("=")[0]);
 
         if(!result)
             return "didn't work";
@@ -41,17 +45,33 @@ public class TokenController {
         return "done";
     }
 
-    @GetMapping("/send/{from}/{to}/{amount}")
-    public String sendToken(@PathVariable String from, 
-        @PathVariable String to, @PathVariable String amount){
+    @PutMapping("/user-token")
+    public String sendTokenUserToGye(@RequestBody SendTokenDto sendRequest){
 
-        boolean result = tokenService.sendToken(from, to, amount);
+
+
+        boolean result = tokenService.sendTokenToGye(sendRequest.getUserEmail(),
+                sendRequest.getGyeId(), sendRequest.getAmount());
 
         if(!result)
             return "didn't work";
 
         return "done";
     }
+
+    @PutMapping("/gye-token")
+    public String sendTokenGyeToUser(@RequestBody SendTokenDto sendRequest){
+
+
+        boolean result = tokenService.sendTokenToUser(sendRequest.getGyeId(),
+                sendRequest.getUserEmail(), sendRequest.getAmount());
+
+        if(!result)
+            return "didn't work";
+
+        return "done";
+    }
+
 
     @GetMapping("/use/{email}/{amount}")
     public String useToken(@PathVariable String email,
