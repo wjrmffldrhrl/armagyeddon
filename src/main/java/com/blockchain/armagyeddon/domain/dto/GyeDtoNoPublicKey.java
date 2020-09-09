@@ -1,6 +1,5 @@
 package com.blockchain.armagyeddon.domain.dto;
 
-import com.blockchain.armagyeddon.domain.entity.Member;
 import lombok.*;
 
 import java.util.ArrayList;

@@ -62,7 +62,4 @@ public class UserInfoService {
         return userInfoRepository.findById(id).get();
     }
 
-
-
-
 }
