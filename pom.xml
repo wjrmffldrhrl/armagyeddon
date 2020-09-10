@@ -93,11 +93,6 @@
           <artifactId>httpcore</artifactId>
           <version>4.4.13</version>
       </dependency>
-      <dependency>
-          <groupId>com.blockchain</groupId>
-          <artifactId>armagyeddon</artifactId>
-          <version>0.0.1-SNAPSHOT</version>
-      </dependency>
 
   </dependencies>
   <build>
