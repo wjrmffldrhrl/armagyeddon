@@ -61,8 +61,6 @@ public class GyeController {
         }
 
 
-
-
         return ResponseEntity.ok(gyeDtoList);
     }
 
@@ -97,9 +95,7 @@ public class GyeController {
     public String joinMember(@RequestBody JoinGyeDto joinGyeDto, Principal currentUser) {
 
 
-       gyeService.saveMember(joinGyeDto.getGyeId(), currentUser.getName(), joinGyeDto.getTurn());
-
-
+        gyeService.saveMember(joinGyeDto.getGyeId(), currentUser.getName(), joinGyeDto.getTurn());
 
 
         return "good!";
