@@ -99,7 +99,7 @@ public class GyeService {
 
         boolean isExist = memberRepository.existsByUserInfo(userInfo.getId());
 
-        if (!isExist) {
+        if (isExist) {
             throw new GyeController.AlreadyExistsException("you've already joined");
         } else {
             Member savedMember = memberRepository.save(member);
