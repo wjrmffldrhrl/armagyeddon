@@ -55,7 +55,6 @@ public class GyeService {
     //계 생성
     public Long save(CreateGyeDto createGyeDto) {
 
-
         String password = passwordEncoder.encode(createGyeDto.getMaster());
         String publicKey = "";
         try {
@@ -69,6 +68,7 @@ public class GyeService {
         } catch (CipherException e) {
             e.printStackTrace();
         }
+
         Long gyeId = gyeRepository.save(Gye.builder()
                 .type(createGyeDto.getType())
                 .title(createGyeDto.getTitle())
@@ -99,7 +99,7 @@ public class GyeService {
 
         boolean isExist = memberRepository.existsByUserInfo(userInfo.getId());
 
-        if (isExist) {
+        if (!isExist) {
             throw new GyeController.AlreadyExistsException("you've already joined");
         } else {
             Member savedMember = memberRepository.save(member);

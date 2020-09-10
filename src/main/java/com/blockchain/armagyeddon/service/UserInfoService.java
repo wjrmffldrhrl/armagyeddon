@@ -22,6 +22,7 @@ public class UserInfoService {
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
 
+    // 회원가입
     public Long saveUserInfo(UserInfoDto userInfoDto) {
 
 
