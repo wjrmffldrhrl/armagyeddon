@@ -97,7 +97,7 @@ public class GyeService {
                 .userState("live")
                 .turn(turn).build();
 
-        boolean isExist = memberRepository.existsByUserInfo(userInfo);
+        boolean isExist = memberRepository.existsByUserInfo_idAndGye_id(userInfo.getId(),gyeId);
 
         if (isExist) {
             throw new GyeController.AlreadyExistsException("you've already joined");
