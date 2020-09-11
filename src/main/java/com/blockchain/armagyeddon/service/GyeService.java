@@ -2,13 +2,16 @@
 package com.blockchain.armagyeddon.service;
 
 
+import com.blockchain.armagyeddon.controller.GyeController;
 import com.blockchain.armagyeddon.domain.dto.CreateGyeDto;
+import com.blockchain.armagyeddon.domain.dto.UserInfoDto;
 import com.blockchain.armagyeddon.domain.entity.Gye;
 import com.blockchain.armagyeddon.domain.entity.Member;
 import com.blockchain.armagyeddon.domain.entity.UserInfo;
 import com.blockchain.armagyeddon.domain.repository.GyeRepository;
 import com.blockchain.armagyeddon.domain.repository.MemberRepository;
 import com.blockchain.armagyeddon.domain.repository.UserInfoRepository;
+import com.sun.xml.bind.v2.model.core.ID;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,7 +43,7 @@ public class GyeService {
     }
 
     public Gye findById(Long id) {
-        
+
         return gyeRepository.findById(id).get();
     }
 
@@ -51,7 +54,6 @@ public class GyeService {
 
     //계 생성
     public Long save(CreateGyeDto createGyeDto) {
-
 
         String password = passwordEncoder.encode(createGyeDto.getMaster());
         String publicKey = "";
@@ -66,7 +68,8 @@ public class GyeService {
         } catch (CipherException e) {
             e.printStackTrace();
         }
-         Long gyeId = gyeRepository.save(Gye.builder()
+
+        Long gyeId = gyeRepository.save(Gye.builder()
                 .type(createGyeDto.getType())
                 .title(createGyeDto.getTitle())
                 .targetMoney(createGyeDto.getTargetMoney())
@@ -82,6 +85,7 @@ public class GyeService {
         return gyeId;
     }
 
+    // 계-회원 저장
     public Long saveMember(Long gyeId, String email, int turn) {
 
         Gye gye = gyeRepository.findById(gyeId).get();
@@ -93,11 +97,15 @@ public class GyeService {
                 .userState("live")
                 .turn(turn).build();
 
-        Member savedMember = memberRepository.save(member);
+        boolean isExist = memberRepository.existsByUserInfo_idAndGye_id(userInfo.getId(),gyeId);
 
+        if (isExist) {
+            throw new GyeController.AlreadyExistsException("you've already joined");
+        } else {
+            Member savedMember = memberRepository.save(member);
 
-        return savedMember.getId();
+            return savedMember.getId();
+        }
     }
-
 
 }
