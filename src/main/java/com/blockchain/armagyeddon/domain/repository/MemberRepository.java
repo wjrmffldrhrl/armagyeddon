@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface MemberRepository extends JpaRepository<Member, UserInfo> {
 
     boolean existsByUserInfo_idAndGye_id(Long user,Long gye);
+
+    boolean existsByTurn(int turn);
 }

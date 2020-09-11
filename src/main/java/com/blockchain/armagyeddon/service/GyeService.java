@@ -1,4 +1,3 @@
-
 package com.blockchain.armagyeddon.service;
 
 
@@ -91,6 +90,8 @@ public class GyeService {
         Gye gye = gyeRepository.findById(gyeId).get();
         UserInfo userInfo = userInfoRepository.findByEmail(email);
 
+
+
         Member member = Member.builder()
                 .gye(gye)
                 .userInfo(userInfo)
@@ -98,14 +99,17 @@ public class GyeService {
                 .turn(turn).build();
 
         boolean isExist = memberRepository.existsByUserInfo_idAndGye_id(userInfo.getId(),gyeId);
+        boolean isExistTurn = memberRepository.existsByTurn(turn);
+
 
         if (isExist) {
             throw new GyeController.AlreadyExistsException("you've already joined");
-        } else {
-            Member savedMember = memberRepository.save(member);
 
-            return savedMember.getId();
+        } else if (isExistTurn) {
+            throw new GyeController.AlreadyExistsException("This Turn already exists. Change Your Turn");
         }
-    }
+        Member savedMember = memberRepository.save(member);
 
+        return savedMember.getId();
+    }
 }
