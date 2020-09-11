@@ -95,8 +95,9 @@ public class GyeController {
     @PostMapping("/member")
     public String joinMember(@RequestBody JoinGyeDto joinGyeDto, Principal currentUser) {
 
-            gyeService.saveMember(joinGyeDto.getGyeId(), currentUser.getName(), joinGyeDto.getTurn());
 
+        gyeService.saveMember(joinGyeDto.getGyeId(), currentUser.getName(), joinGyeDto.getTurn());
+  
         return "good!";
     }
 
