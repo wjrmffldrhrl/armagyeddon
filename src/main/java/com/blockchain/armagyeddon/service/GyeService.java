@@ -99,7 +99,7 @@ public class GyeService {
                 .turn(turn).build();
 
         boolean isExist = memberRepository.existsByUserInfo_idAndGye_id(userInfo.getId(),gyeId);
-        boolean isExistTurn = memberRepository.existsByTurn(turn);
+        boolean isExistTurn = memberRepository.existsByTurnAndGye_id(turn,gyeId);
 
 
         if (isExist) {
@@ -107,8 +107,10 @@ public class GyeService {
 
         } else if (isExistTurn) {
             throw new GyeController.AlreadyExistsException("This Turn already exists. Change Your Turn");
-        }
-        Member savedMember = memberRepository.save(member);
+//        } else if(turn > gye.getTotalMember()){
+//            throw new GyeController.AlreadyExistsException("It's full. See you next time.");
+//        }
+        } Member savedMember = memberRepository.save(member);
 
         return savedMember.getId();
     }
