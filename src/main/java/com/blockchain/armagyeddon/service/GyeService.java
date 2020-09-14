@@ -100,16 +100,16 @@ public class GyeService {
 
         boolean isExist = memberRepository.existsByUserInfo_idAndGye_id(userInfo.getId(),gyeId);
         boolean isExistTurn = memberRepository.existsByTurnAndGye_id(turn,gyeId);
-        int isFullMember = memberRepository.countByGye_id(gyeId);
+        int memberCnt = memberRepository.countByGye_id(gyeId);
 
 
         if (isExist) {
             throw new GyeController.AlreadyExistsException("you've already joined");
         } else if (isExistTurn) {
             throw new GyeController.AlreadyExistsException("This Turn already exists. Change Your Turn");
-        } else if(isFullMember >= gye.getTotalMember()) {
+        } else if(memberCnt >= gye.getTotalMember()) {
             throw new GyeController.AlreadyExistsException("It's full. See you next time.");
-        }  else if(turn>gye.getTotalMember()){
+        }  else if(turn > gye.getTotalMember()){
             throw new GyeController.AlreadyExistsException("It is not an exact Turn. Change Your Turn");
         } Member savedMember = memberRepository.save(member);
 
