@@ -9,4 +9,7 @@ public interface MemberRepository extends JpaRepository<Member, UserInfo> {
     boolean existsByUserInfo_idAndGye_id(Long user,Long gye);
 
     boolean existsByTurnAndGye_id(int turn,Long gye);
+
+   int countByGye_id(Long id);
+
 }
