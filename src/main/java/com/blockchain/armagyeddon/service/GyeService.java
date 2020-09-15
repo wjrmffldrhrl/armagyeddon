@@ -91,15 +91,14 @@ public class GyeService {
         UserInfo userInfo = userInfoRepository.findByEmail(email);
 
 
-
         Member member = Member.builder()
                 .gye(gye)
                 .userInfo(userInfo)
                 .userState("live")
                 .turn(turn).build();
 
-        boolean isExist = memberRepository.existsByUserInfo_idAndGye_id(userInfo.getId(),gyeId);
-        boolean isExistTurn = memberRepository.existsByTurnAndGye_id(turn,gyeId);
+        boolean isExist = memberRepository.existsByUserInfo_idAndGye_id(userInfo.getId(), gyeId);
+        boolean isExistTurn = memberRepository.existsByTurnAndGye_id(turn, gyeId);
         int memberCnt = memberRepository.countByGye_id(gyeId);
 
 
@@ -107,11 +106,15 @@ public class GyeService {
             throw new GyeController.AlreadyExistsException("you've already joined");
         } else if (isExistTurn) {
             throw new GyeController.AlreadyExistsException("This Turn already exists. Change Your Turn");
-        } else if(memberCnt >= gye.getTotalMember()) {
+        } else if (memberCnt >= gye.getTotalMember()) {
             throw new GyeController.AlreadyExistsException("It's full. See you next time.");
-        }  else if(turn > gye.getTotalMember()){
+        } else if (turn > gye.getTotalMember()) {
             throw new GyeController.AlreadyExistsException("It is not an exact Turn. Change Your Turn");
-        } Member savedMember = memberRepository.save(member);
+        } else if (gye.getPeriod() != gye.getTotalMember()) {
+            throw new GyeController.AlreadyExistsException("It is not an exact Period. Change Your Period");
+
+        }
+        Member savedMember = memberRepository.save(member);
 
         return savedMember.getId();
     }
