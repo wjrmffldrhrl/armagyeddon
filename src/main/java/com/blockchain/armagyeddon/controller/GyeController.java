@@ -10,6 +10,7 @@ import com.blockchain.armagyeddon.service.GyeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -91,13 +92,21 @@ public class GyeController {
                 .members(userInfoDto).build());
     }
 
+   // keyword로 gye 조회
+    @GetMapping("/gye/search")
+    public String search(@RequestParam(value = "keyword") String keyword, Model model) {
+        List<GyeDtoNoPublicKey> gyeDtoNoPublicKeyList= gyeService.searchGye(keyword);
+        model.addAttribute("gyeList", gyeDtoNoPublicKeyList);
+
+      return "gye/list.html"; // FE단에서 처리
+    }
 
     @PostMapping("/member")
     public String joinMember(@RequestBody JoinGyeDto joinGyeDto, Principal currentUser) {
 
 
         gyeService.saveMember(joinGyeDto.getGyeId(), currentUser.getName(), joinGyeDto.getTurn());
-  
+
         return "good!";
     }
 

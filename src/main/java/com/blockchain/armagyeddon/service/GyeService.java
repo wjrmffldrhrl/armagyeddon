@@ -3,7 +3,9 @@ package com.blockchain.armagyeddon.service;
 
 import com.blockchain.armagyeddon.controller.GyeController;
 import com.blockchain.armagyeddon.domain.dto.CreateGyeDto;
+import com.blockchain.armagyeddon.domain.dto.GyeDtoNoPublicKey;
 import com.blockchain.armagyeddon.domain.dto.UserInfoDto;
+import com.blockchain.armagyeddon.domain.dto.UserInfoDtoNoPassword;
 import com.blockchain.armagyeddon.domain.entity.Gye;
 import com.blockchain.armagyeddon.domain.entity.Member;
 import com.blockchain.armagyeddon.domain.entity.UserInfo;
@@ -13,6 +15,7 @@ import com.blockchain.armagyeddon.domain.repository.UserInfoRepository;
 import com.sun.xml.bind.v2.model.core.ID;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.web3j.crypto.CipherException;
@@ -22,6 +25,7 @@ import javax.transaction.Transactional;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -36,14 +40,42 @@ public class GyeService {
     private final MemberRepository memberRepository;
     private final UserInfoRepository userInfoRepository;
 
+    // gye 전부 조회
     public List<Gye> findAll() {
 
         return gyeRepository.findAll();
     }
 
+    // id로 gye 조회
     public Gye findById(Long id) {
 
         return gyeRepository.findById(id).get();
+    }
+
+    // keyword로 gye 조회
+    public List<GyeDtoNoPublicKey> searchGye(String keyword) {
+        List<Gye> gyes = gyeRepository.findByTitleContaining(keyword);
+        List<GyeDtoNoPublicKey> gyeDtoNoPublicKeyList = new ArrayList<>();
+        List<UserInfoDtoNoPassword> userInfoDto = new ArrayList<>();
+
+        for (Gye gye : gyes) {
+            gyeDtoNoPublicKeyList.add(this.convertEntityToDto(gye));
+        }
+        return gyeDtoNoPublicKeyList;
+    }
+
+    private GyeDtoNoPublicKey convertEntityToDto(Gye gye) {
+        return GyeDtoNoPublicKey.builder()
+                .id(gye.getId())
+                .type(gye.getType())
+                .title(gye.getTitle())
+                .targetMoney(gye.getTargetMoney())
+                .period(gye.getPeriod())
+                .totalMember(gye.getTotalMember())
+                .state(gye.getState())
+                .master(gye.getMaster())
+//                .members(userInfoDto).build());
+                .build();
     }
 
     //계 삭제
