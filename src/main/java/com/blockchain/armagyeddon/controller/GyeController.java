@@ -89,16 +89,18 @@ public class GyeController {
                 .totalMember(gye.getTotalMember())
                 .state(gye.getState())
                 .master(gye.getMaster())
-                .members(userInfoDto).build());
+                .members(userInfoDto)
+                .build());
+
     }
 
-   // keyword로 gye 조회
+    // keyword로 gye 조회
     @GetMapping("/gye/search")
     public String search(@RequestParam(value = "keyword") String keyword, Model model) {
-        List<GyeDtoNoPublicKey> gyeDtoNoPublicKeyList= gyeService.searchGye(keyword);
+        List<GyeDtoNoPublicKey> gyeDtoNoPublicKeyList = gyeService.searchGye(keyword);
         model.addAttribute("gyeList", gyeDtoNoPublicKeyList);
 
-      return "gye/list.html"; // FE단에서 처리
+        return "gye/list.html"; // FE단에서 처리
     }
 
     @PostMapping("/member")
