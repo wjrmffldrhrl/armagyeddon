@@ -90,6 +90,7 @@ public class GyeController {
                     .master(gye.getMaster())
                     .members(userInfoDto).build());
         }
+        
         return ResponseEntity.ok(gyeDtoList);
     }
 
