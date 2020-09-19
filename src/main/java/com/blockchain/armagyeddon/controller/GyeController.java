@@ -66,6 +66,33 @@ public class GyeController {
         return ResponseEntity.ok(gyeDtoList);
     }
 
+    @GetMapping("/gye/search/{keyword}")
+    public ResponseEntity<List> search(@PathVariable String keyword) {
+
+        List<GyeDtoNoPublicKey> gyeDtoList = new ArrayList<>();
+        for (Gye gye : gyeService.search(keyword)) {
+            List<UserInfoDtoNoPassword> userInfoDto = new ArrayList<>();
+            for (Member member : gye.getMembers()) {
+                UserInfoDtoNoPassword dto = UserInfoDtoNoPassword.builder()
+                        .email(member.getUserInfo().getEmail())
+                        .name(member.getUserInfo().getName()).build();
+                userInfoDto.add(dto);
+            }
+
+            gyeDtoList.add(GyeDtoNoPublicKey.builder()
+                    .id(gye.getId())
+                    .type(gye.getType())
+                    .title(gye.getTitle())
+                    .targetMoney(gye.getTargetMoney())
+                    .period(gye.getPeriod())
+                    .totalMember(gye.getTotalMember())
+                    .state(gye.getState())
+                    .master(gye.getMaster())
+                    .members(userInfoDto).build());
+        }
+        return ResponseEntity.ok(gyeDtoList);
+    }
+
     // 계 id로 조회
     @GetMapping("/gye/{id}")
     public ResponseEntity<GyeDtoNoPublicKey> findGye(@PathVariable Long id) {
@@ -94,14 +121,13 @@ public class GyeController {
 
     }
 
-    // keyword로 gye 조회
-    @GetMapping("/gye/search")
-    public String search(@RequestParam(value = "keyword") String keyword, Model model) {
-        List<GyeDtoNoPublicKey> gyeDtoNoPublicKeyList = gyeService.searchGye(keyword);
-        model.addAttribute("gyeList", gyeDtoNoPublicKeyList);
-
-        return "gye/list.html"; // FE단에서 처리
-    }
+//    // keyword로 gye 조회
+//    @GetMapping("/gye/search/{keyword}")
+//    public String search(@PathVariable String keyword) {
+//        List<GyeDtoNoPublicKey> gyeDtoNoPublicKeyList = gyeService.searchGye(keyword);
+//
+//        return "gyeDtoNoPublicKeyList"; // FE단에서 처리
+//    }
 
     @PostMapping("/member")
     public String joinMember(@RequestBody JoinGyeDto joinGyeDto, Principal currentUser) {
