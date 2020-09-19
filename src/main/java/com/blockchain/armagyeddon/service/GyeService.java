@@ -52,34 +52,6 @@ public class GyeService {
         return gyeRepository.findById(id).get();
     }
 
-//    // keyword로 gye 조회
-//    public List<GyeDtoNoPublicKey> searchGye(String keyword) {
-//        List<Gye> gyes = gyeRepository.findByTitleContaining(keyword);
-//        List<GyeDtoNoPublicKey> gyeDtoNoPublicKeyList = new ArrayList<>();
-//
-//        for (Gye gye : gyes) {
-//            gyeDtoNoPublicKeyList.add(this.convertEntityToDto(gye));
-//        }
-//        return gyeDtoNoPublicKeyList;
-//    }
-//
-//    private GyeDtoNoPublicKey convertEntityToDto(Gye gye) {
-//        List<UserInfoDtoNoPassword> userInfoDto = new ArrayList<>();
-//
-//        return GyeDtoNoPublicKey.builder()
-//                .id(gye.getId())
-//                .type(gye.getType())
-//                .title(gye.getTitle())
-//                .targetMoney(gye.getTargetMoney())
-//                .period(gye.getPeriod())
-//                .totalMember(gye.getTotalMember())
-//                .state(gye.getState())
-//                .master(gye.getMaster())
-//                .members(userInfoDto)
-//                .build();
-//
-//    }
-
     //계 삭제
     public void deleteById(Long id) {
         gyeRepository.deleteById(id);
