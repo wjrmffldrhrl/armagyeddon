@@ -44,6 +44,8 @@ public class Gye {
 
     private String publicKey;
 
+    private String interest;
+
 
     @OneToMany(mappedBy = "gye")
     private List<Member> members = new ArrayList<>();

@@ -14,6 +14,8 @@ public class GyeDtoNoPublicKey {
 
     private Long id;
 
+    private String interest;
+
     private String type;
 
     private String title;
