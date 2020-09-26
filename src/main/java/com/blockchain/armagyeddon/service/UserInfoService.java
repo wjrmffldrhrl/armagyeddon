@@ -35,13 +35,7 @@ public class UserInfoService {
         String publicKey = "";
         try {
             publicKey = tokenService.createAccount(password);
-        } catch (InvalidAlgorithmParameterException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (NoSuchProviderException e) {
-            e.printStackTrace();
-        } catch (CipherException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
