@@ -1,27 +1,26 @@
 package com.blockchain.armagyeddon.service;
 
-
 import com.blockchain.armagyeddon.controller.GyeController;
 import com.blockchain.armagyeddon.domain.dto.CreateGyeDto;
-import com.blockchain.armagyeddon.domain.dto.UserInfoDto;
+import com.blockchain.armagyeddon.domain.dto.GyeDtoNoPublicKey;
+import com.blockchain.armagyeddon.domain.dto.UserInfoDtoNoPassword;
 import com.blockchain.armagyeddon.domain.entity.Gye;
 import com.blockchain.armagyeddon.domain.entity.Member;
 import com.blockchain.armagyeddon.domain.entity.UserInfo;
 import com.blockchain.armagyeddon.domain.repository.GyeRepository;
 import com.blockchain.armagyeddon.domain.repository.MemberRepository;
 import com.blockchain.armagyeddon.domain.repository.UserInfoRepository;
-import com.sun.xml.bind.v2.model.core.ID;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.web3j.crypto.CipherException;
 
-
 import javax.transaction.Transactional;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -29,18 +28,25 @@ import java.util.List;
 @Transactional
 public class GyeService {
 
-
     private final GyeRepository gyeRepository;
     private final TokenService tokenService;
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
     private final UserInfoRepository userInfoRepository;
 
+    // gye 전부 조회
     public List<Gye> findAll() {
 
         return gyeRepository.findAll();
     }
 
+    // keyword로 gye 조회
+    public List<Gye> search(String keyword) {
+
+        return gyeRepository.findByTitleContaining(keyword);
+    }
+
+    // id로 gye 조회
     public Gye findById(Long id) {
 
         return gyeRepository.findById(id).get();
@@ -58,13 +64,7 @@ public class GyeService {
         String publicKey = "";
         try {
             publicKey = tokenService.createAccount(password);
-        } catch (InvalidAlgorithmParameterException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (NoSuchProviderException e) {
-            e.printStackTrace();
-        } catch (CipherException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

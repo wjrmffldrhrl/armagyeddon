@@ -10,6 +10,7 @@ import com.blockchain.armagyeddon.service.GyeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -65,6 +66,34 @@ public class GyeController {
         return ResponseEntity.ok(gyeDtoList);
     }
 
+    @GetMapping("/gye/search/{keyword}")
+    public ResponseEntity<List> search(@PathVariable String keyword) {
+
+        List<GyeDtoNoPublicKey> gyeDtoList = new ArrayList<>();
+        for (Gye gye : gyeService.search(keyword)) {
+            List<UserInfoDtoNoPassword> userInfoDto = new ArrayList<>();
+            for (Member member : gye.getMembers()) {
+                UserInfoDtoNoPassword dto = UserInfoDtoNoPassword.builder()
+                        .email(member.getUserInfo().getEmail())
+                        .name(member.getUserInfo().getName()).build();
+                userInfoDto.add(dto);
+            }
+
+            gyeDtoList.add(GyeDtoNoPublicKey.builder()
+                    .id(gye.getId())
+                    .type(gye.getType())
+                    .title(gye.getTitle())
+                    .targetMoney(gye.getTargetMoney())
+                    .period(gye.getPeriod())
+                    .totalMember(gye.getTotalMember())
+                    .state(gye.getState())
+                    .master(gye.getMaster())
+                    .members(userInfoDto).build());
+        }
+        
+        return ResponseEntity.ok(gyeDtoList);
+    }
+
     // 계 id로 조회
     @GetMapping("/gye/{id}")
     public ResponseEntity<GyeDtoNoPublicKey> findGye(@PathVariable Long id) {
@@ -88,7 +117,9 @@ public class GyeController {
                 .totalMember(gye.getTotalMember())
                 .state(gye.getState())
                 .master(gye.getMaster())
-                .members(userInfoDto).build());
+                .members(userInfoDto)
+                .build());
+
     }
 
 
@@ -97,7 +128,7 @@ public class GyeController {
 
 
         gyeService.saveMember(joinGyeDto.getGyeId(), currentUser.getName(), joinGyeDto.getTurn());
-  
+
         return "good!";
     }
 
