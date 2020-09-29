@@ -24,8 +24,11 @@ public class Gye {
     @Column(nullable = false)
     private String type;
 
+    private String interest;
+
     @Column(nullable = false)
     private String title;
+
 
     @Column(nullable = false)
     private int targetMoney;
@@ -44,7 +47,7 @@ public class Gye {
 
     private String publicKey;
 
-    private String interest;
+
 
 
     @OneToMany(mappedBy = "gye")

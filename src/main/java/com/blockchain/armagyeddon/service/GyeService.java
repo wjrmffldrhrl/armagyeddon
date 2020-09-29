@@ -76,6 +76,7 @@ public class GyeService {
 
         Long gyeId = gyeRepository.save(Gye.builder()
                 .type(createGyeDto.getType())
+                .interest(createGyeDto.getInterest())
                 .title(createGyeDto.getTitle())
                 .targetMoney(createGyeDto.getTargetMoney())
                 .period(createGyeDto.getPeriod())
