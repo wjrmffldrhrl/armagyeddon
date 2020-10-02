@@ -25,6 +25,7 @@ public class Gye {
     @Column(nullable = false)
     private String type;
 
+    @Column
     private String interest;
 
     @Column(nullable = false)
