@@ -11,6 +11,8 @@ public class CreateGyeDto {
 
     private String type;
 
+    private String interest;
+
     private String title;
 
     private int targetMoney;
@@ -24,4 +26,6 @@ public class CreateGyeDto {
     private String master;
 
     private int turn;
+
+
 }

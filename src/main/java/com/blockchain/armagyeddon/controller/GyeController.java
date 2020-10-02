@@ -52,6 +52,7 @@ public class GyeController {
 
             gyeDtoList.add(GyeDtoNoPublicKey.builder()
                     .id(gye.getId())
+                    .interest(gye.getInterest())
                     .type(gye.getType())
                     .title(gye.getTitle())
                     .targetMoney(gye.getTargetMoney())
@@ -81,6 +82,7 @@ public class GyeController {
 
             gyeDtoList.add(GyeDtoNoPublicKey.builder()
                     .id(gye.getId())
+                    .interest(gye.getInterest())
                     .type(gye.getType())
                     .title(gye.getTitle())
                     .targetMoney(gye.getTargetMoney())
@@ -110,6 +112,7 @@ public class GyeController {
 
         return ResponseEntity.ok(GyeDtoNoPublicKey.builder()
                 .id(gye.getId())
+                .interest(gye.getInterest())
                 .type(gye.getType())
                 .title(gye.getTitle())
                 .targetMoney(gye.getTargetMoney())
