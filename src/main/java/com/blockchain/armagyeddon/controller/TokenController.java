@@ -34,55 +34,56 @@ public class TokenController {
         return tokenService.getBalance(id);
     }
 
+    // 토큰 충전
     @PostMapping("/user-token")
     public String chargeToken(@RequestBody String amount, Principal userInfo) throws IOException {
         System.out.println(amount);
         boolean result = tokenService.chargeToken(userInfo.getName(), amount.split("=")[0]);
 
-        if(!result)
+        if (!result)
             return "didn't work";
 
         return "done";
     }
 
+    // 유저가 계에 토큰 납입
     @PutMapping("/user-token")
-    public String sendTokenUserToGye(@RequestBody SendTokenDto sendRequest){
-
+    public String sendTokenUserToGye(@RequestBody SendTokenDto sendRequest) {
 
 
         boolean result = tokenService.sendTokenToGye(sendRequest.getUserEmail(),
                 sendRequest.getGyeId(), sendRequest.getAmount());
 
-        if(!result)
+        if (!result)
             return "didn't work";
 
         return "done";
     }
 
+    // 유저 토큰 수령
     @PutMapping("/gye-token")
-    public String sendTokenGyeToUser(@RequestBody SendTokenDto sendRequest){
+    public String sendTokenGyeToUser(@RequestBody SendTokenDto sendRequest) {
 
 
         boolean result = tokenService.sendTokenToUser(sendRequest.getGyeId(),
                 sendRequest.getUserEmail(), sendRequest.getAmount());
 
-        if(!result)
+        if (!result)
             return "didn't work";
 
         return "done";
     }
-
 
     @GetMapping("/use/{email}/{amount}")
     public String useToken(@PathVariable String email,
-        @PathVariable String amount){
+                           @PathVariable String amount) {
 
         boolean result = tokenService.burnToken(email, amount);
 
-        if(!result)
+        if (!result)
             return "didn't work";
 
         return "done";
     }
-    
+
 }

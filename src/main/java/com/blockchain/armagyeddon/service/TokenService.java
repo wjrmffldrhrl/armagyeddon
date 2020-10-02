@@ -95,8 +95,7 @@ public class TokenService {
     }
 
     private void transactionFunction(String functionName, List<Type> inputParameters,
-
-            List<TypeReference<?>> outputParameters) {
+                                     List<TypeReference<?>> outputParameters) {
 
 
         // Create contract function
@@ -224,7 +223,6 @@ public class TokenService {
     }
 
 
-
     // 토큰 전송 기능
     // 잔액이 부족한 경우에 대한 처리 추가할 것
 
@@ -239,9 +237,7 @@ public class TokenService {
         }
 
 
-
-
-        return sendToken(gye.getPublicKey(),  toUser.getPublicKey(), amount);
+        return sendToken(gye.getPublicKey(), toUser.getPublicKey(), amount);
 
     }
 
@@ -260,9 +256,7 @@ public class TokenService {
         }
 
 
-
-
-        return sendToken(fromUser.getPublicKey(),  gye.getPublicKey(), amount);
+        return sendToken(fromUser.getPublicKey(), gye.getPublicKey(), amount);
 
     }
 
@@ -311,11 +305,10 @@ public class TokenService {
 
         ECKeyPair keyPair = Keys.createEcKeyPair();
 
-        WalletFile wallet = Wallet.createStandard(password, keyPair);       
+        WalletFile wallet = Wallet.createStandard(password, keyPair);
 
         return "0x" + wallet.getAddress();
     }
 
-    
 
 }

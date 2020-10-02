@@ -21,6 +21,7 @@ public class Gye {
     @GeneratedValue
     private Long id;
 
+
     @Column(nullable = false)
     private String type;
 
@@ -28,7 +29,6 @@ public class Gye {
 
     @Column(nullable = false)
     private String title;
-
 
     @Column(nullable = false)
     private int targetMoney;
@@ -46,8 +46,6 @@ public class Gye {
     private String master;
 
     private String publicKey;
-
-
 
 
     @OneToMany(mappedBy = "gye")
