@@ -2,8 +2,6 @@ package com.blockchain.armagyeddon.service;
 
 import com.blockchain.armagyeddon.controller.GyeController;
 import com.blockchain.armagyeddon.domain.dto.CreateGyeDto;
-import com.blockchain.armagyeddon.domain.dto.GyeDtoNoPublicKey;
-import com.blockchain.armagyeddon.domain.dto.UserInfoDtoNoPassword;
 import com.blockchain.armagyeddon.domain.entity.Gye;
 import com.blockchain.armagyeddon.domain.entity.Member;
 import com.blockchain.armagyeddon.domain.entity.UserInfo;
@@ -46,18 +44,29 @@ public class GyeService {
         return gyeRepository.findByTitleContaining(keyword);
     }
 
-    // id로 gye 조회
+    // gyeId
+    public List<Gye> findGyeIdListbyUserId(Long userId) {
+
+        List<Gye> gyeList = new ArrayList<>();
+        for (Member res : memberRepository.findByUserInfo_id(userId)) {
+            gyeList.add(res.getGye());
+        }
+
+        return gyeList;
+    }
+
+    // gyeId로 gye 조회
     public Gye findById(Long id) {
 
         return gyeRepository.findById(id).get();
     }
 
-    //계 삭제
+    // gye 삭제
     public void deleteById(Long id) {
         gyeRepository.deleteById(id);
     }
 
-    //계 생성
+    // gye 생성
     public Long save(CreateGyeDto createGyeDto) {
 
         String password = passwordEncoder.encode(createGyeDto.getMaster());
@@ -85,13 +94,14 @@ public class GyeService {
                 .master(createGyeDto.getMaster())
                 .publicKey(publicKey).build()).getId();
 
-        // 계 생성시 계주는 자동으로 계 맴버에 포함된다.
+        // gye 생성시 계주는 자동으로 계 맴버에 포함된다.
         this.saveMember(gyeId, createGyeDto.getMaster(), createGyeDto.getTurn());
 
         return gyeId;
     }
 
-    // 계-회원 저장
+    // gye-user 저장
+    // member 저장
     public Long saveMember(Long gyeId, String email, int turn) {
 
         Gye gye = gyeRepository.findById(gyeId).get();
