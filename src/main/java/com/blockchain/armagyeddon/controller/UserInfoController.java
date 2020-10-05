@@ -56,10 +56,14 @@ public class UserInfoController {
     public ResponseEntity<List> myPage(@PathVariable("email") String email, Long id) {
 
         Long userId = userInfoService.getUserInfo(email).getId();
-        List<Gye> gyeList = gyeService.findGyeIdListbyUserId(userId);
 
+        List<Gye> myGyeList = new ArrayList<>();
 
+        for (Member res : gyeService.findGyeIdListByUserId(userId)) {
+            myGyeList.add(res.getGye());
+        }
 
-        return ResponseEntity.ok(gyeList);
+        return ResponseEntity.ok(myGyeList);
+
     }
 }

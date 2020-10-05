@@ -38,35 +38,30 @@ public class GyeService {
         return gyeRepository.findAll();
     }
 
-    // keyword로 gye 조회
+    // keyword로  조회
     public List<Gye> search(String keyword) {
 
         return gyeRepository.findByTitleContaining(keyword);
     }
 
-    // gyeId
-    public List<Gye> findGyeIdListbyUserId(Long userId) {
+    // 계id
+    public List<Member> findGyeIdListByUserId(Long userId) {
 
-        List<Gye> gyeList = new ArrayList<>();
-        for (Member res : memberRepository.findByUserInfo_id(userId)) {
-            gyeList.add(res.getGye());
-        }
-
-        return gyeList;
+        return memberRepository.findByUserInfo_id(userId);
     }
 
-    // gyeId로 gye 조회
+    // id로 gye 조회
     public Gye findById(Long id) {
 
         return gyeRepository.findById(id).get();
     }
 
-    // gye 삭제
+    //계 삭제
     public void deleteById(Long id) {
         gyeRepository.deleteById(id);
     }
 
-    // gye 생성
+    //계 생성
     public Long save(CreateGyeDto createGyeDto) {
 
         String password = passwordEncoder.encode(createGyeDto.getMaster());
@@ -94,14 +89,13 @@ public class GyeService {
                 .master(createGyeDto.getMaster())
                 .publicKey(publicKey).build()).getId();
 
-        // gye 생성시 계주는 자동으로 계 맴버에 포함된다.
+        // 계 생성시 계주는 자동으로 계 맴버에 포함된다.
         this.saveMember(gyeId, createGyeDto.getMaster(), createGyeDto.getTurn());
 
         return gyeId;
     }
 
-    // gye-user 저장
-    // member 저장
+    // 계-회원 저장
     public Long saveMember(Long gyeId, String email, int turn) {
 
         Gye gye = gyeRepository.findById(gyeId).get();
