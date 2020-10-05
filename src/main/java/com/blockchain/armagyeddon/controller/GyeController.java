@@ -10,7 +10,6 @@ import com.blockchain.armagyeddon.service.GyeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -72,8 +71,10 @@ public class GyeController {
     public ResponseEntity<List> search(@PathVariable String keyword) {
 
         List<GyeDtoNoPublicKey> gyeDtoList = new ArrayList<>();
+
         for (Gye gye : gyeService.search(keyword)) {
             List<UserInfoDtoNoPassword> userInfoDto = new ArrayList<>();
+
             for (Member member : gye.getMembers()) {
                 UserInfoDtoNoPassword dto = UserInfoDtoNoPassword.builder()
                         .email(member.getUserInfo().getEmail())
@@ -122,7 +123,6 @@ public class GyeController {
                 .master(gye.getMaster())
                 .members(userInfoDto)
                 .build());
-
     }
 
     @PostMapping("/member")

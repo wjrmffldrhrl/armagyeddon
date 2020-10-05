@@ -1,13 +1,23 @@
 package com.blockchain.armagyeddon.controller;
 
+import antlr.ASTNULLType;
+import com.blockchain.armagyeddon.domain.dto.GyeDtoNoPublicKey;
 import com.blockchain.armagyeddon.domain.dto.UserInfoDto;
 import com.blockchain.armagyeddon.domain.dto.UserInfoDtoNoPassword;
+import com.blockchain.armagyeddon.domain.entity.Gye;
+import com.blockchain.armagyeddon.domain.entity.Member;
 import com.blockchain.armagyeddon.domain.entity.UserInfo;
+import com.blockchain.armagyeddon.domain.repository.MemberRepository;
+import com.blockchain.armagyeddon.service.GyeService;
 import com.blockchain.armagyeddon.service.UserInfoService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.print.attribute.SetOfIntegerSyntax;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -16,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserInfoController {
 
     private final UserInfoService userInfoService;
+    private final GyeService gyeService;
 
     // 회원 가입
     @PostMapping("/user-info")
@@ -26,11 +37,11 @@ public class UserInfoController {
 
     @GetMapping("/user-info/{email}")
     public UserInfoDtoNoPassword getUserInfo(@PathVariable("email") String email) {
-        UserInfo userinfo = userInfoService.getUserInfo(email);
+        UserInfo userInfo = userInfoService.getUserInfo(email);
 
         return UserInfoDtoNoPassword.builder()
-                .email(userinfo.getEmail())
-                .name(userinfo.getName()).build();
+                .email(userInfo.getEmail())
+                .name(userInfo.getName()).build();
     }
 
     @ResponseStatus(value = HttpStatus.CONFLICT, reason = "Already exists")
@@ -40,5 +51,19 @@ public class UserInfoController {
         }
     }
 
-}
+    // myPage에서 참여중인 gye 내역
+    @GetMapping("/user-info/mypage/{email}")
+    public ResponseEntity<List> myPage(@PathVariable("email") String email, Long id) {
 
+        Long userId = userInfoService.getUserInfo(email).getId();
+
+        List<Gye> myGyeList = new ArrayList<>();
+
+        for (Member res : gyeService.findGyeIdListByUserId(userId)) {
+            myGyeList.add(res.getGye());
+        }
+
+        return ResponseEntity.ok(myGyeList);
+
+    }
+}

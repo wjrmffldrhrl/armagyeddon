@@ -2,8 +2,6 @@ package com.blockchain.armagyeddon.service;
 
 import com.blockchain.armagyeddon.controller.GyeController;
 import com.blockchain.armagyeddon.domain.dto.CreateGyeDto;
-import com.blockchain.armagyeddon.domain.dto.GyeDtoNoPublicKey;
-import com.blockchain.armagyeddon.domain.dto.UserInfoDtoNoPassword;
 import com.blockchain.armagyeddon.domain.entity.Gye;
 import com.blockchain.armagyeddon.domain.entity.Member;
 import com.blockchain.armagyeddon.domain.entity.UserInfo;
@@ -40,10 +38,16 @@ public class GyeService {
         return gyeRepository.findAll();
     }
 
-    // keyword로 gye 조회
+    // keyword로  조회
     public List<Gye> search(String keyword) {
 
         return gyeRepository.findByTitleContaining(keyword);
+    }
+
+    // 계id
+    public List<Member> findGyeIdListByUserId(Long userId) {
+
+        return memberRepository.findByUserInfo_id(userId);
     }
 
     // id로 gye 조회
