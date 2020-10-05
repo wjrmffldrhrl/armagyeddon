@@ -67,6 +67,7 @@ public class GyeController {
         return ResponseEntity.ok(gyeDtoList);
     }
 
+    // keyword로 계 검색
     @GetMapping("/gye/search/{keyword}")
     public ResponseEntity<List> search(@PathVariable String keyword) {
 
