@@ -124,14 +124,6 @@ public class GyeController {
 
     }
 
-//    // keyword로 gye 조회
-//    @GetMapping("/gye/search/{keyword}")
-//    public String search(@PathVariable String keyword) {
-//        List<GyeDtoNoPublicKey> gyeDtoNoPublicKeyList = gyeService.searchGye(keyword);
-//
-//        return "gyeDtoNoPublicKeyList"; // FE단에서 처리
-//    }
-
     @PostMapping("/member")
     public String joinMember(@RequestBody JoinGyeDto joinGyeDto, Principal currentUser) {
 
