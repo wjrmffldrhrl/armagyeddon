@@ -67,6 +67,7 @@ public class GyeController {
         return ResponseEntity.ok(gyeDtoList);
     }
 
+    // keyword로 계 검색
     @GetMapping("/gye/search/{keyword}")
     public ResponseEntity<List> search(@PathVariable String keyword) {
 
@@ -123,14 +124,6 @@ public class GyeController {
                 .build());
 
     }
-
-//    // keyword로 gye 조회
-//    @GetMapping("/gye/search/{keyword}")
-//    public String search(@PathVariable String keyword) {
-//        List<GyeDtoNoPublicKey> gyeDtoNoPublicKeyList = gyeService.searchGye(keyword);
-//
-//        return "gyeDtoNoPublicKeyList"; // FE단에서 처리
-//    }
 
     @PostMapping("/member")
     public String joinMember(@RequestBody JoinGyeDto joinGyeDto, Principal currentUser) {
