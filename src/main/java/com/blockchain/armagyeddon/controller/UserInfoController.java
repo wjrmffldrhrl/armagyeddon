@@ -1,6 +1,7 @@
 package com.blockchain.armagyeddon.controller;
 
 import antlr.ASTNULLType;
+import com.blockchain.armagyeddon.domain.dto.CreateGyeDto;
 import com.blockchain.armagyeddon.domain.dto.GyeDtoNoPublicKey;
 import com.blockchain.armagyeddon.domain.dto.UserInfoDto;
 import com.blockchain.armagyeddon.domain.dto.UserInfoDtoNoPassword;
@@ -53,14 +54,14 @@ public class UserInfoController {
 
     // myPage에서 참여중인 gye 내역
     @GetMapping("/user-info/mypage/{email}")
-    public ResponseEntity<List> myPage(@PathVariable("email") String email, Long id) {
+    public ResponseEntity<List> myPage(@PathVariable("email") String email) {
 
         Long userId = userInfoService.getUserInfo(email).getId();
 
-        List<Gye> myGyeList = new ArrayList<>();
+        List<String> myGyeList = new ArrayList<>();
 
         for (Member res : gyeService.findGyeIdListByUserId(userId)) {
-            myGyeList.add(res.getGye());
+            myGyeList.add(res.getGye().getTitle());
         }
 
         return ResponseEntity.ok(myGyeList);
