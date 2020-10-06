@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @EqualsAndHashCode(of = "id")
-public class Member {x
+public class Member {
 
     @Id
     @GeneratedValue
