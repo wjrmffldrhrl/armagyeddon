@@ -58,13 +58,22 @@ public class UserInfoController {
 
         Long userId = userInfoService.getUserInfo(email).getId();
 
-        List<String> myGyeList = new ArrayList<>();
+        List<CreateGyeDto> myGyeList = new ArrayList<>();
 
         for (Member res : gyeService.findGyeIdListByUserId(userId)) {
-            myGyeList.add(res.getGye().getTitle());
+            res.getGye();
+
+            myGyeList.add(CreateGyeDto.builde.type(res.getType())
+                    .interest(res.getInterest())
+                    .title(res.getTitle())
+                    .targetMoney(res.getTargetMoney())
+                    .period(res.getPeriod())
+                    .totalMember(res.getTotalMember())
+                    .state(res.getState())
+                    .master(res.getMaster())
+                    .turn(res.getTurn()).build());
+
         }
-
         return ResponseEntity.ok(myGyeList);
-
     }
 }
