@@ -54,9 +54,9 @@ public class TokenService {
 
     // Token contract address
 
-    private String armaTokenAddress = "0xD3CBE7AfCb3796Ff564aefeB90D1238EE140fE4e";
+    private String armaTokenAddress = "0x31EF4CC0898b66325A100E7b61Cb2b36f3ACe921";
 
-    private String networkAddress = "http://ec2-3-15-17-47.us-east-2.compute.amazonaws.com:8545";
+    private String networkAddress = "http://ec2-18-218-217-240.us-east-2.compute.amazonaws.com:8545";
 
     private Web3j web3j;
 
