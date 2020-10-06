@@ -57,12 +57,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable()
                 // dont authenticate this particular request
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST,"/authenticate", "/user-info").permitAll()
+                .antMatchers(HttpMethod.POST, "/authenticate", "/user-info").permitAll()
+                .antMatchers(HttpMethod.GET, "/gye").permitAll()
                 // all other requests need to be authenticated
-                        .anyRequest().authenticated().and()
+                .anyRequest().authenticated().and()
 
                 // stateless session exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
-                        .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
+                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         // Add a filter to validate the tokens with every request
