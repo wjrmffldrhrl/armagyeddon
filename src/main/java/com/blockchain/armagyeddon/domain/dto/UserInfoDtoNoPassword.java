@@ -12,5 +12,6 @@ public class UserInfoDtoNoPassword {
 
     private String email;
     private String name;
+    private int turn;
 
 }
