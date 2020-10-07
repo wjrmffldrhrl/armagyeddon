@@ -61,17 +61,19 @@ public class UserInfoController {
         List<CreateGyeDto> myGyeList = new ArrayList<>();
 
         for (Member res : gyeService.findGyeIdListByUserId(userId)) {
-            res.getGye();
+            Long gyeIds = res.getGye().getId();
+            Gye gyes = gyeService.findById(gyeIds);
 
-            myGyeList.add(CreateGyeDto.builde.type(res.getType())
-                    .interest(res.getInterest())
-                    .title(res.getTitle())
-                    .targetMoney(res.getTargetMoney())
-                    .period(res.getPeriod())
-                    .totalMember(res.getTotalMember())
-                    .state(res.getState())
-                    .master(res.getMaster())
-                    .turn(res.getTurn()).build());
+                myGyeList.add(CreateGyeDto.builder.type(gyes.getType())
+                        .interest(gyes.getInterest())
+                        .title(gyes.getTitle())
+                        .targetMoney(gyes.getTargetMoney())
+                        .period(gyes.getPeriod())
+                        .totalMember(gyes.getTotalMember())
+                        .state(gyes.getState())
+                        .master(gyes.getMaster())
+                        .turn(res.getTurn()).build());
+
 
         }
         return ResponseEntity.ok(myGyeList);
