@@ -1,14 +1,11 @@
 package com.blockchain.armagyeddon.controller;
 
-import antlr.ASTNULLType;
 import com.blockchain.armagyeddon.domain.dto.CreateGyeDto;
-import com.blockchain.armagyeddon.domain.dto.GyeDtoNoPublicKey;
 import com.blockchain.armagyeddon.domain.dto.UserInfoDto;
 import com.blockchain.armagyeddon.domain.dto.UserInfoDtoNoPassword;
 import com.blockchain.armagyeddon.domain.entity.Gye;
 import com.blockchain.armagyeddon.domain.entity.Member;
 import com.blockchain.armagyeddon.domain.entity.UserInfo;
-import com.blockchain.armagyeddon.domain.repository.MemberRepository;
 import com.blockchain.armagyeddon.service.GyeService;
 import com.blockchain.armagyeddon.service.UserInfoService;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.print.attribute.SetOfIntegerSyntax;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,16 +60,16 @@ public class UserInfoController {
             Long gyeIds = res.getGye().getId();
             Gye gyes = gyeService.findById(gyeIds);
 
-                myGyeList.add(CreateGyeDto.builder.type(gyes.getType())
-                        .interest(gyes.getInterest())
-                        .title(gyes.getTitle())
-                        .targetMoney(gyes.getTargetMoney())
-                        .period(gyes.getPeriod())
-                        .totalMember(gyes.getTotalMember())
-                        .state(gyes.getState())
-                        .master(gyes.getMaster())
-                        .turn(res.getTurn()).build());
-
+            myGyeList.add(CreateGyeDto.builder()
+                    .type(gyes.getType())
+                    .interest(gyes.getInterest())
+                    .title(gyes.getTitle())
+                    .targetMoney(gyes.getTargetMoney())
+                    .period(gyes.getPeriod())
+                    .totalMember(gyes.getTotalMember())
+                    .state(gyes.getState())
+                    .master(gyes.getMaster())
+                    .turn(res.getTurn()).build());
 
         }
         return ResponseEntity.ok(myGyeList);
