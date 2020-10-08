@@ -18,7 +18,6 @@ import javax.transaction.Transactional;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
