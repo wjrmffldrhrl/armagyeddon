@@ -128,4 +128,32 @@ public class GyeService {
 
         return savedMember.getId();
     }
+
+    public int[][] applyInterest(int targetMoney, int totalMember, float interest) {
+
+        if(totalMember % 2 == 0) {
+            System.out.println("invalid total member");
+            return null;
+        }
+
+        // totalMember == month
+        // 맴버수와 한 주기의 개월수는 같다.
+        int[][] appliedFee = new int[totalMember][totalMember];
+        int targetMonthFee = targetMoney / totalMember;
+
+        for(int member = 0 ; member < totalMember ; member++) {
+            for(int month = 0 ; month < totalMember ; month++) {
+                int targetFee;
+                if(month > member)
+                    targetFee = targetMonthFee + (int)(targetMonthFee * interest * 0.01);
+                else
+                    targetFee = targetMonthFee;
+
+                appliedFee[member][month] = targetFee;
+            }
+
+        }
+
+        return appliedFee;
+    }
 }
