@@ -34,7 +34,7 @@ public class GyeController {
 
     }
 
-    // 계 정보 전체 조회
+    // 계 전체 조회
     @GetMapping("/gye")
     public ResponseEntity<List> findGye() {
 
@@ -56,6 +56,7 @@ public class GyeController {
                     .title(gye.getTitle())
                     .targetMoney(gye.getTargetMoney())
                     .period(gye.getPeriod())
+                    .payDay(gye.getPayDay())
                     .totalMember(gye.getTotalMember())
                     .state(gye.getState())
                     .master(gye.getMaster())
@@ -66,7 +67,7 @@ public class GyeController {
         return ResponseEntity.ok(gyeDtoList);
     }
 
-    // keyword로 계 검색
+    // keyword로 계 조회
     @GetMapping("/gye/search/{keyword}")
     public ResponseEntity<List> search(@PathVariable String keyword) {
 
@@ -89,6 +90,7 @@ public class GyeController {
                     .title(gye.getTitle())
                     .targetMoney(gye.getTargetMoney())
                     .period(gye.getPeriod())
+                    .payDay(gye.getPayDay())
                     .totalMember(gye.getTotalMember())
                     .state(gye.getState())
                     .master(gye.getMaster())
@@ -119,6 +121,7 @@ public class GyeController {
                 .title(gye.getTitle())
                 .targetMoney(gye.getTargetMoney())
                 .period(gye.getPeriod())
+                .payDay(gye.getPayDay())
                 .totalMember(gye.getTotalMember())
                 .state(gye.getState())
                 .master(gye.getMaster())
@@ -126,6 +129,7 @@ public class GyeController {
                 .build());
     }
 
+    // 계 참여
     @PostMapping("/member")
     public String joinMember(@RequestBody JoinGyeDto joinGyeDto, Principal currentUser) {
 
@@ -134,6 +138,7 @@ public class GyeController {
         return "good!";
     }
 
+    // 예외 처리
     @ResponseStatus(value = HttpStatus.CONFLICT, reason = "Already exists")
     public static class AlreadyExistsException extends RuntimeException {
         public AlreadyExistsException(String message) {
