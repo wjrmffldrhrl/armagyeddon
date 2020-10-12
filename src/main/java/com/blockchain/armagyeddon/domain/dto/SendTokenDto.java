@@ -11,5 +11,9 @@ public class SendTokenDto {
     private String userEmail;
     private Long gyeId;
     private String amount;
+    private Long targetMoney;
+    private Long totalMember;
+    private Long interest;
+
 
 }
