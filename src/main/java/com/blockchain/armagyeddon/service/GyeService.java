@@ -131,7 +131,7 @@ public class GyeService {
 
     public int[][] applyInterest(int targetMoney, int totalMember, float interest) {
 
-        if(totalMember % 2 == 0) {
+        if (totalMember % 2 == 0) {
             System.out.println("invalid total member");
             return null;
         }
@@ -141,11 +141,11 @@ public class GyeService {
         int[][] appliedFee = new int[totalMember][totalMember];
         int targetMonthFee = targetMoney / totalMember;
 
-        for(int member = 0 ; member < totalMember ; member++) {
-            for(int month = 0 ; month < totalMember ; month++) {
+        for (int member = 0; member < totalMember; member++) {
+            for (int month = 0; month < totalMember; month++) {
                 int targetFee;
-                if(month > member)
-                    targetFee = targetMonthFee + (int)(targetMonthFee * interest * 0.01);
+                if (month > member)
+                    targetFee = targetMonthFee + (int) (targetMonthFee * interest * 0.01);
                 else
                     targetFee = targetMonthFee;
 

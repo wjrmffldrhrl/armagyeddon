@@ -5,6 +5,7 @@ import javax.persistence.*;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +37,9 @@ public class Gye {
 
     @Column(nullable = false)
     private int period;
+
+    @Column(nullable = false)
+    private LocalDateTime payDay;
 
     @Column(nullable = false)
     private int totalMember;
