@@ -38,7 +38,7 @@ public class Gye {
     @Column(nullable = false)
     private int period;
 
-    @Column(nullable = false)
+    @Column
     private LocalDateTime payDay;
 
     @Column(nullable = false)
