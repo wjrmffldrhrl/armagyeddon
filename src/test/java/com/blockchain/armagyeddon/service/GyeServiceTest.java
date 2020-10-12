@@ -22,4 +22,18 @@ public class GyeServiceTest {
             System.out.println();
         }
     }
+
+    @Test
+    public void applyInterestTest2() {
+
+
+        for(int[] i : gyeService.nonInterest(500000, 11)) {
+            for(int j : i)
+                System.out.print(j + " ");
+
+            System.out.println();
+        }
+    }
+
+
 }

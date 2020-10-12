@@ -63,31 +63,6 @@ public class TokenController {
         return "done";
     }
 
-    //낙찰계 유저가 계에 토큰 납부
-    @PutMapping("/user-token")
-    public int[][] collectTokenToGye(@RequestBody SendTokenDto sendRequest, Principal gye) {
-
-
-//        boolean result = GyeService.applyInterest(sendRequest.getTargetMoney(),
-//                sendRequest.getTotalMember(), sendRequest.getInterest());
-//
-//        if (!result)
-
-
-//        return gyeService.applyInterest(int, int totalmoney, float interest);
-//        return gyeService.applyInterest(sendRequest);
-        return null;
-    }
-
-    // 계 생성
-    @PostMapping("/gye")
-    public Long saveGye(@RequestBody CreateGyeDto createGyeDto, Principal userInfo) {
-        System.out.println("Controller response : " + createGyeDto.getTitle());
-        createGyeDto.setMaster(userInfo.getName());
-        return gyeService.save(createGyeDto);
-
-    }
-
     // 유저 토큰 수령
     @PutMapping("/gye-token")
     public String sendTokenGyeToUser(@RequestBody SendTokenDto sendRequest) {
