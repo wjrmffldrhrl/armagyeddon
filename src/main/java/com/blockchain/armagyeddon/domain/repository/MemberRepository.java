@@ -12,6 +12,8 @@ public interface MemberRepository extends JpaRepository<Member, UserInfo> {
 
     int countByGye_id(Long id);
 
+    int findTurnByUserInfo_idAndGye_id(Long user, Long gye);
+
     List<Member> findByUserInfo_id(Long user);
 
 }

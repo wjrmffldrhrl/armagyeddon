@@ -55,6 +55,13 @@ public class GyeService {
         return gyeRepository.findById(id).get();
     }
 
+    // id로 turn 조회
+    public int findTurnByUserInfo_idAndGye_id(Long user,Long gye) {
+
+        return memberRepository.findTurnByUserInfo_idAndGye_id(user,gye);
+
+    }
+
     //계 삭제
     public void deleteById(Long id) {
         gyeRepository.deleteById(id);
@@ -155,5 +162,29 @@ public class GyeService {
         }
 
         return appliedFee;
+    }
+
+    public int[][] nonInterest(int targetMoney, int totalMember) {
+
+
+        // totalMember == month == period?
+        // 맴버수와 한 주기의 개월수는 같다.
+        int[][] nonAppliedFee = new int[totalMember][totalMember];
+        int targetMonthFee = targetMoney / (totalMember - 1);
+
+        for (int member = 0; member < totalMember; member++) {
+            for (int month = 0; month < totalMember; month++) {
+                int targetFee;
+                if (month == member)
+                    targetFee = 0;
+                else
+                    targetFee = targetMonthFee;
+
+                nonAppliedFee[member][month] = targetFee;
+            }
+
+        }
+
+        return nonAppliedFee;
     }
 }

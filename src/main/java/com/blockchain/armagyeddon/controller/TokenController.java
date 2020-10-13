@@ -4,8 +4,13 @@ import java.io.IOException;
 import java.security.Principal;
 
 import com.blockchain.armagyeddon.domain.dto.SendTokenDto;
+import com.blockchain.armagyeddon.domain.entity.Member;
+import com.blockchain.armagyeddon.domain.entity.UserInfo;
+import com.blockchain.armagyeddon.domain.repository.UserInfoRepository;
+import com.blockchain.armagyeddon.service.GyeService;
 import com.blockchain.armagyeddon.service.TokenService;
 
+import com.blockchain.armagyeddon.service.UserInfoService;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
@@ -16,6 +21,8 @@ import lombok.RequiredArgsConstructor;
 public class TokenController {
 
     private final TokenService tokenService;
+    private final GyeService gyeService;
+    private final UserInfoService userinfoService;
 
     @GetMapping("/total")
     public String token() throws Exception {
@@ -51,8 +58,16 @@ public class TokenController {
     public String sendTokenUserToGye(@RequestBody SendTokenDto sendRequest) {
 
 
+        int[][] table = gyeService.nonInterest(sendRequest.getTargetMoney(),sendRequest.getTotalMember());
+
+        int month = 1;
+
+        UserInfo userInfo = userinfoService.getUserInfo(sendRequest.getUserEmail());
+
+        int turn =gyeService.findTurnByUserInfo_idAndGye_id(userInfo.getId(), sendRequest.getGyeId());
+
         boolean result = tokenService.sendTokenToGye(sendRequest.getUserEmail(),
-                sendRequest.getGyeId(), sendRequest.getAmount());
+                sendRequest.getGyeId(),  Integer.toString(table[turn][month]));
 
         if (!result)
             return "didn't work";

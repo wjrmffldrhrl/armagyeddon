@@ -15,7 +15,19 @@ public class GyeServiceTest {
     public void applyInterestTest() {
 
 
-        for(int[] i : gyeService.applyInterest(120, 3, 10)) {
+        for(int[] i : gyeService.applyInterest(120, 3, 3)) {
+            for(int j : i)
+                System.out.print(j + " ");
+
+            System.out.println();
+        }
+    }
+
+    @Test
+    public void nonInterestTest() {
+
+
+        for(int[] i : gyeService.nonInterest(120, 3)) {
             for(int j : i)
                 System.out.print(j + " ");
 
