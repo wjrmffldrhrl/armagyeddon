@@ -1,6 +1,7 @@
 package com.blockchain.armagyeddon.controller;
 
 import com.blockchain.armagyeddon.domain.dto.CreateGyeDto;
+import com.blockchain.armagyeddon.domain.dto.MyGyeListDto;
 import com.blockchain.armagyeddon.domain.dto.UserInfoDto;
 import com.blockchain.armagyeddon.domain.dto.UserInfoDtoNoPassword;
 import com.blockchain.armagyeddon.domain.entity.Gye;
@@ -54,13 +55,14 @@ public class UserInfoController {
 
         Long userId = userInfoService.getUserInfo(email).getId();
 
-        List<CreateGyeDto> myGyeList = new ArrayList<>();
+        List<MyGyeListDto> myGyeList = new ArrayList<>();
 
         for (Member res : gyeService.findGyeIdListByUserId(userId)) {
             Long gyeIds = res.getGye().getId();
             Gye gyes = gyeService.findById(gyeIds);
 
-            myGyeList.add(CreateGyeDto.builder()
+            myGyeList.add(MyGyeListDto.builder()
+                    .id(gyes.getId())
                     .type(gyes.getType())
                     .interest(gyes.getInterest())
                     .title(gyes.getTitle())

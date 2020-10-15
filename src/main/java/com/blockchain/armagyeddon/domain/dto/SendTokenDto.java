@@ -8,8 +8,11 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class SendTokenDto {
+
     private String userEmail;
+
     private Long gyeId;
+
     private String amount;
 
 }
