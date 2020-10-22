@@ -143,6 +143,8 @@ public class GyeService {
 
         for (int member = 0; member < totalMember; member++) {
             for (int month = 0; month < totalMember; month++) {
+
+
                 int targetFee;
                 if (month > member)
                     targetFee = targetMonthFee + (int) (targetMonthFee * interest * 0.01);
@@ -150,6 +152,9 @@ public class GyeService {
                     targetFee = targetMonthFee;
 
                 appliedFee[member][month] = targetFee;
+
+
+
             }
 
         }

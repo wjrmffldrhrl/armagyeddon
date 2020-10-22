@@ -53,9 +53,9 @@ public class TokenService {
     private GyeRepository gyeRepository;
 
     // Token contract address
-    private String armaTokenAddress = "0x842F2c79b37da51AEFFE4847Be0A5668970CAb88";
+    private String armaTokenAddress = "0x558ce81B2C4597feA34F6Ed9798E7D2b6BD2fdf4";
 
-    private String networkAddress = "http://ec2-18-188-156-170.us-east-2.compute.amazonaws.com:8545";
+    private String networkAddress = "http://ec2-3-21-19-71.us-east-2.compute.amazonaws.com:8545";
 
     private Web3j web3j;
 
@@ -257,6 +257,21 @@ public class TokenService {
 
         return sendToken(fromUser.getPublicKey(), gye.getPublicKey(), amount);
 
+    }
+
+
+    //to gye add interest
+    public boolean sendTokenToGyeWithInterest(String from, Long id, String amount){
+
+        UserInfo fromUser = userInfoRepository.findByEmail(from);
+        Gye gye = gyeRepository.findById(id).get();
+        System.out.println(fromUser.getEmail() + " send " + amount + " token to " + gye.getTitle());
+
+        if (fromUser == null || gye == null) {
+            System.out.println("User or Gye didn't exist");
+            return false;
+        }
+        return sendToken(fromUser.getPublicKey(), gye.getPublicKey(), amount);
     }
 
     public boolean sendToken(String from, String to, String amount) {
