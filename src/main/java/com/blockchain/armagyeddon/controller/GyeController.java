@@ -48,7 +48,8 @@ public class GyeController {
             for (Member member : gye.getMembers()) {
                 UserInfoDtoNoPassword dto = UserInfoDtoNoPassword.builder()
                         .email(member.getUserInfo().getEmail())
-                        .name(member.getUserInfo().getName()).build();
+                        .name(member.getUserInfo().getName())
+                        .turn(member.getTurn()).build();
                 userInfoDto.add(dto);
             }
 
