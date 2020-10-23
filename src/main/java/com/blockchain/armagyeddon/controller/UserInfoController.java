@@ -1,6 +1,5 @@
 package com.blockchain.armagyeddon.controller;
 
-import com.blockchain.armagyeddon.domain.dto.CreateGyeDto;
 import com.blockchain.armagyeddon.domain.dto.MyGyeListDto;
 import com.blockchain.armagyeddon.domain.dto.UserInfoDto;
 import com.blockchain.armagyeddon.domain.dto.UserInfoDtoNoPassword;
