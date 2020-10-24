@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.plaf.nimbus.State;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -144,17 +145,17 @@ public class GyeController {
 
     // 계 상태 변경
     @PostMapping("/gye-state/{id}")
-    public Gye updateState(@PathVariable Long id, @RequestBody Gye updateGye) {
+    public ResponseEntity updateState(@PathVariable Long id, @RequestBody Gye updateGye) {
 
         Optional<Gye> gye = gyeRepository.findById(id);
-
+        System.out.println("updateGye state : " + updateGye.getState());
         // 수정
         gye.get().setState(updateGye.getState());
         gye.get().setPayDay(updateGye.getPayDay());
         // 수정 후 저장
         gyeRepository.save(gye.get());
 
-        return gye.get();
+        return new ResponseEntity<> ("done!", HttpStatus.OK);
 
     }
 
