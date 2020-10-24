@@ -27,3 +27,4 @@ Armagyeddon is blockchain-based traditional Korean cooperative organization plat
 # Related repository
 - [Front-end](https://github.com/wjrmffldrhrl/armagyeddon-frontend)
 - [Contract](https://github.com/wjrmffldrhrl/armagyeddon-contract)
+- [Demone](https://github.com/xmxmqq/armagyeddon-demon)
