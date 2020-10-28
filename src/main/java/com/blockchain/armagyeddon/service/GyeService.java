@@ -43,7 +43,7 @@ public class GyeService {
         return gyeRepository.findByTitleContaining(keyword);
     }
 
-    // 계id
+    // 유저id로 계id 리스트 조회
     public List<Member> findGyeIdListByUserId(Long userId) {
 
         return memberRepository.findByUserInfo_id(userId);

@@ -6,15 +6,18 @@ import com.blockchain.armagyeddon.domain.entity.Member;
 import com.blockchain.armagyeddon.domain.dto.JoinGyeDto;
 import com.blockchain.armagyeddon.domain.dto.UserInfoDtoNoPassword;
 import com.blockchain.armagyeddon.domain.entity.Gye;
+import com.blockchain.armagyeddon.domain.repository.GyeRepository;
 import com.blockchain.armagyeddon.service.GyeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.plaf.nimbus.State;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -24,6 +27,7 @@ public class GyeController {
 
 
     private final GyeService gyeService;
+    private final GyeRepository gyeRepository;
 
     // 계 생성
     @PostMapping("/gye")
@@ -67,6 +71,8 @@ public class GyeController {
 
         return ResponseEntity.ok(gyeDtoList);
     }
+
+
 
     // keyword로 계 조회
     @GetMapping("/gye/search/{keyword}")
@@ -137,6 +143,25 @@ public class GyeController {
         gyeService.saveMember(joinGyeDto.getGyeId(), currentUser.getName(), joinGyeDto.getTurn());
 
         return "good!";
+    }
+
+    // 계 상태 변경
+    @PostMapping("/gye-state/{id}")
+    public ResponseEntity updateState(@PathVariable Long id, @RequestBody Gye updateGye) {
+
+        Optional<Gye> gye = gyeRepository.findById(id);
+
+        // 수정
+        gye.get().setState(updateGye.getState());
+        gye.get().setPayDay(updateGye.getPayDay());
+
+        // 수정 후 저장
+        gyeRepository.save(gye.get());
+
+        System.out.println("update Gye state to " + updateGye.getState());
+
+        return new ResponseEntity<> ("done!", HttpStatus.OK);
+
     }
 
     // 예외 처리
