@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.plaf.nimbus.State;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +71,41 @@ public class GyeController {
         return ResponseEntity.ok(gyeDtoList);
     }
 
+    // 유효한 계 조회
+    @GetMapping("/validate-gye")
+    public ResponseEntity<List> findValidateGye() {
 
+        List<GyeDtoNoPublicKey> gyeDtoList = new ArrayList<>();
+
+        for (Gye gye : gyeService.findValidateGye()) {
+
+            List<UserInfoDtoNoPassword> userInfoDto = new ArrayList<>();
+
+            for (Member member : gye.getMembers()) {
+                UserInfoDtoNoPassword dto = UserInfoDtoNoPassword.builder()
+                        .email(member.getUserInfo().getEmail())
+                        .name(member.getUserInfo().getName())
+                        .turn(member.getTurn()).build();
+                userInfoDto.add(dto);
+            }
+
+            gyeDtoList.add(GyeDtoNoPublicKey.builder()
+                    .id(gye.getId())
+                    .interest(gye.getInterest())
+                    .type(gye.getType())
+                    .title(gye.getTitle())
+                    .targetMoney(gye.getTargetMoney())
+                    .period(gye.getPeriod())
+                    .payDay(gye.getPayDay())
+                    .totalMember(gye.getTotalMember())
+                    .state(gye.getState())
+                    .master(gye.getMaster())
+                    .members(userInfoDto).build());
+        }
+
+
+        return ResponseEntity.ok(gyeDtoList);
+    }
 
     // keyword로 계 조회
     @GetMapping("/gye/search/{keyword}")
