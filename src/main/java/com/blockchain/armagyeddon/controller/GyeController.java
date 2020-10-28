@@ -72,6 +72,8 @@ public class GyeController {
         return ResponseEntity.ok(gyeDtoList);
     }
 
+
+
     // keyword로 계 조회
     @GetMapping("/gye/search/{keyword}")
     public ResponseEntity<List> search(@PathVariable String keyword) {
@@ -148,12 +150,15 @@ public class GyeController {
     public ResponseEntity updateState(@PathVariable Long id, @RequestBody Gye updateGye) {
 
         Optional<Gye> gye = gyeRepository.findById(id);
-        System.out.println("updateGye state : " + updateGye.getState());
+
         // 수정
         gye.get().setState(updateGye.getState());
         gye.get().setPayDay(updateGye.getPayDay());
+
         // 수정 후 저장
         gyeRepository.save(gye.get());
+
+        System.out.println("update Gye state to " + updateGye.getState());
 
         return new ResponseEntity<> ("done!", HttpStatus.OK);
 
