@@ -11,4 +11,6 @@ public interface GyeRepository extends JpaRepository<Gye, Long> {
 
     List<Gye> findByTitleContaining(String keyword);
 
+    List<Gye> findByStateIsNot(String state);
+
 }

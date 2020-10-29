@@ -43,6 +43,12 @@ public class GyeService {
         return gyeRepository.findByTitleContaining(keyword);
     }
 
+    // 유효한 계 조회
+    public List<Gye> findValidateGye() {
+
+        return gyeRepository.findByStateIsNot("expired");
+    }
+
     // 유저id로 계id 리스트 조회
     public List<Member> findGyeIdListByUserId(Long userId) {
 
@@ -152,7 +158,6 @@ public class GyeService {
                     targetFee = targetMonthFee;
 
                 appliedFee[member][month] = targetFee;
-
 
 
             }
