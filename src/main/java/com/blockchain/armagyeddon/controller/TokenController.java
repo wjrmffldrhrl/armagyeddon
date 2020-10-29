@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.security.Principal;
 
 import com.blockchain.armagyeddon.domain.dto.SendTokenDto;
+import com.blockchain.armagyeddon.service.GyeService;
 import com.blockchain.armagyeddon.service.TokenService;
 
+import com.blockchain.armagyeddon.service.UserInfoService;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 public class TokenController {
 
     private final TokenService tokenService;
+    private final GyeService gyeService;
+    private final UserInfoService userInfoService;
 
     @GetMapping("/total")
     public String token() throws Exception {
@@ -85,5 +89,12 @@ public class TokenController {
 
         return "done";
     }
+
+    @GetMapping("/calculateMoney")
+    public int calculateMoney( @RequestParam Long gyeId, @RequestParam String email, @RequestParam int period){
+        Long userId = userInfoService.getUserInfo(email).getId();
+        return gyeService.calculateMoney(gyeId,userId,period);
+    }
+
 
 }
