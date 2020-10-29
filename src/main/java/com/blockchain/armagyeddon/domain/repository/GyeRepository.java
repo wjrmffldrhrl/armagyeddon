@@ -10,5 +10,7 @@ import java.util.List;
 public interface GyeRepository extends JpaRepository<Gye, Long> {
 
     List<Gye> findByTitleContaining(String keyword);
+//    List<Gye> findByStateIs(String state);
+    List<Gye> findByStateIsNot(String state);
 
 }

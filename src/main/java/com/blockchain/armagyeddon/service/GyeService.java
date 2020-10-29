@@ -45,16 +45,7 @@ public class GyeService {
 
     // 유효한 계 조회
     public List<Gye> findValidateGye() {
-        Gye gye = new Gye();
-
-        if (gye.getState() == "expired") {
-
-            return null;
-
-        } else {
-
-            return gyeRepository.findAll();
-        }
+        return gyeRepository.findByStateIsNot("expired");
     }
 
     // 유저id로 계id 리스트 조회
