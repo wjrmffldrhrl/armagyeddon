@@ -135,6 +135,27 @@ public class GyeService {
         return savedMember.getId();
     }
 
+    public int calculateMoney(Long gyeId, Long userId, int period){
+
+        Gye gye = gyeRepository.findById(gyeId).get();
+        int targetMoney = gye.getTargetMoney();
+        int totalMember = gye.getTotalMember();
+        float interest = Float.parseFloat(gye.getInterest());
+
+        int turn = 0;
+        for (Member mem: gye.getMembers()) {
+            if( mem.getId() == userId){
+                turn = mem.getTurn();
+                break;
+            }
+        }
+
+        int [][] table = applyInterest(targetMoney, totalMember, interest);
+
+        return table[turn][period];
+
+    }
+
     public int[][] applyInterest(int targetMoney, int totalMember, float interest) {
 
         if (totalMember % 2 == 0) {
