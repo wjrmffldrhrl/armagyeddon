@@ -144,7 +144,7 @@ public class GyeService {
 
         int turn = 0;
         for (Member mem: gye.getMembers()) {
-            if( mem.getId() == userId){
+            if( mem.getUserInfo().getId() == userId-1){
                 turn = mem.getTurn();
                 break;
             }
