@@ -92,7 +92,9 @@ public class TokenController {
 
     @GetMapping("/calculateMoney")
     public int calculateMoney( @RequestParam Long gyeId, @RequestParam String email, @RequestParam int period){
+
         Long userId = userInfoService.getUserInfo(email).getId();
+
         return gyeService.calculateMoney(gyeId,userId,period);
     }
 

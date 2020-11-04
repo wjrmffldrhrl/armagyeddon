@@ -53,9 +53,9 @@ public class TokenService {
     private GyeRepository gyeRepository;
 
     // Token contract address
-    private String armaTokenAddress = "0x617fbbBaA23D9dB62b9fF6A854123C77CA977C33";
+    private String armaTokenAddress = "0x20Be3d87736828300EF51EF0ec7Ca7374583dBC7";
 
-    private String networkAddress = "http://ec2-3-128-76-146.us-east-2.compute.amazonaws.com:8545";
+    private String networkAddress = "http://ec2-3-23-94-86.us-east-2.compute.amazonaws.com:8545";
 
     private Web3j web3j;
 
