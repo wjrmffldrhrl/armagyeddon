@@ -138,14 +138,15 @@ public class GyeService {
     public int calculateMoney(Long gyeId, Long userId, int period){
 
         Gye gye = gyeRepository.findById(gyeId).get();
+
         int targetMoney = gye.getTargetMoney();
         int totalMember = gye.getTotalMember();
         float interest = Float.parseFloat(gye.getInterest());
 
         int turn = 0;
         for (Member mem: gye.getMembers()) {
-            if( mem.getUserInfo().getId() == userId-1){
-                turn = mem.getTurn();
+            if( mem.getUserInfo().getId() == userId){
+                turn = mem.getTurn() -1;
                 break;
             }
         }
