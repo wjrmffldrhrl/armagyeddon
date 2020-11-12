@@ -7,7 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 class ArmagyeddonApplicationTests {
 
     @Test
-    void contextLoads() {
+    void applyInterest() {
+
     }
 
 }
